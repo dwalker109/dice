@@ -1,18 +1,18 @@
 import { v4 as uuid } from "uuid";
 import { AppThunk, Player } from "../../types";
 import { selectActiveDiceRound } from "../dice/diceSelectors";
-import { roll } from "../dice/diceSlice";
+import { roll, archive } from "../dice/diceSlice";
 import { selectPlayers, selectRuleset } from "./matchSelectors";
 import { draw, finish, init, start } from "./matchSlice";
 import { fallback } from "./rulesets";
 
-const p1: Player = {
+export const p1: Player = {
   id: uuid(),
   name: "You",
   cpu: false,
 };
 
-const p2: Player = {
+export const p2: Player = {
   id: uuid(),
   name: "Computer",
   cpu: true,
@@ -42,6 +42,9 @@ const runMatch = (): AppThunk => async (dispatch, getState): Promise<void> => {
   } else {
     dispatch(draw({ diceRound }));
   }
+
+  // Get the dice ready again
+  dispatch(archive());
 };
 
 export { initMatch, runMatch };

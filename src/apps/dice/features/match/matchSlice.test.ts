@@ -1,10 +1,9 @@
-import { DiceRound } from "./../../types";
 import { v4 as uuid } from "uuid";
 import { store } from "../../store";
 import { Player } from "../../types";
-import { archive, roll } from "../dice/diceSlice";
+import { DiceRound } from "./../../types";
+import { draw, finish, init, start } from "./matchSlice";
 import rulesets from "./rulesets";
-import { init, start, finish, draw } from "./matchSlice";
 
 const player1: Player = {
   id: uuid(),
