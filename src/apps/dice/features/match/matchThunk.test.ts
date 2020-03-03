@@ -1,6 +1,7 @@
 import { store } from "../../store";
-import { initMatch, p1, p2, runMatch } from "./matchThunk";
+import { initMatch, runMatch } from "./matchThunk";
 import { Player } from "../../types";
+import { p1, p2 } from "../actor/players";
 
 beforeEach(async () => {
   store.dispatch({ type: "HARD_RESET" });
@@ -8,14 +9,14 @@ beforeEach(async () => {
 
 describe("Game loop execution", () => {
   it("Can init a new match", async () => {
-    store.dispatch(initMatch());
+    store.dispatch(initMatch([p1, p2]));
     const match = store.getState().match;
     expect(match.players).toEqual<Player[]>([p1, p2]);
     expect(match.status).toMatch("NEW");
   });
 
   it("Can run a full match e2e", async () => {
-    store.dispatch(initMatch());
+    store.dispatch(initMatch([p1, p2]));
 
     for (let i = 0; i < 100; i++) {
       store.dispatch(runMatch());

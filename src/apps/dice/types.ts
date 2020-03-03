@@ -1,4 +1,3 @@
-import { SupportedRulesets, Ruleset } from "./types";
 import { appReducer } from "./store";
 import { ThunkAction, Action } from "@reduxjs/toolkit";
 
@@ -36,7 +35,7 @@ export interface Ruleset {
 
 export type RulesetLookup = Map<SupportedRulesets, Ruleset>;
 
-export type MatchHistory = [Player, number];
+export type MatchHistory = [string, number];
 
 export type MatchState = {
   id: string;

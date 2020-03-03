@@ -1,29 +1,21 @@
-import { v4 as uuid } from "uuid";
 import { AppThunk, Player } from "../../types";
 import { selectActiveDiceRound } from "../dice/diceSelectors";
-import { roll, archive } from "../dice/diceSlice";
+import { archive, roll } from "../dice/diceSlice";
 import { selectPlayers, selectRuleset } from "./matchSelectors";
 import { draw, finish, init, start } from "./matchSlice";
 import { fallback } from "./rulesets";
 
-export const p1: Player = {
-  id: uuid(),
-  name: "You",
-  cpu: false,
-};
-
-export const p2: Player = {
-  id: uuid(),
-  name: "Computer",
-  cpu: true,
-};
-
-const initMatch = (): AppThunk => async (dispatch): Promise<void> => {
-  // Init with players (hardcoded 2p as per spec)
-  dispatch(init({ players: [p1, p2], ruleset: "STANDARD" }));
+const initMatch = (players: Player[]): AppThunk => async (
+  dispatch
+): Promise<void> => {
+  // Init with players
+  dispatch(init({ players: players, ruleset: "STANDARD" }));
 };
 
 const runMatch = (): AppThunk => async (dispatch, getState): Promise<void> => {
+  // Get the dice ready
+  dispatch(archive());
+
   // Start a new game
   dispatch(start());
 
@@ -42,9 +34,6 @@ const runMatch = (): AppThunk => async (dispatch, getState): Promise<void> => {
   } else {
     dispatch(draw({ diceRound }));
   }
-
-  // Get the dice ready again
-  dispatch(archive());
 };
 
 export { initMatch, runMatch };

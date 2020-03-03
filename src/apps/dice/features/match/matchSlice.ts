@@ -38,10 +38,10 @@ const matchSlice = createSlice({
       state.winner = winner;
 
       // Tuple -> Map -> Tuple conversion b/c cannot serialise a Map, but Map lookups are +1
-      const historyMap = new Map<Player, number>(state.history);
-      const playerWins = historyMap.get(winner) || 0;
-      historyMap.set(winner, playerWins + 1);
-      state.history = Array.from(historyMap);
+      const historyMap = new Map<string, number>(state.history);
+      const playerWins = historyMap.get(winner.id) || 0;
+      historyMap.set(winner.id, playerWins + 1);
+      state.history = Array.from(historyMap.entries());
 
       state.diceRoundIds.push(diceRound.id);
     },
