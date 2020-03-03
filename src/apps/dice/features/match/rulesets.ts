@@ -1,4 +1,13 @@
-import { Ruleset, RulesetLookup, Player, DiceRoll } from "../../types";
+import { Player, Ruleset, RulesetLookup } from "../../types";
+
+const fallback: Ruleset = {
+  name: "FALLBACK",
+  minPlayers: 0,
+  maxPlayers: 1,
+  dicePerTurn: 0,
+  rollAlgo: () => [0],
+  winnerAlgo: () => null,
+};
 
 const standard: Ruleset = {
   name: "STANDARD",
@@ -28,6 +37,10 @@ const standard: Ruleset = {
   },
 };
 
+/**
+ * Provide a lookup system to mitigate TS warnings from use of map.get()
+ */
 const lookup: RulesetLookup = new Map([["STANDARD", standard]]);
 
 export default lookup;
+export { fallback, standard };

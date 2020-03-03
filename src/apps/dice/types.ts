@@ -23,7 +23,7 @@ export type DiceState = {
   history: DiceRound[];
 };
 
-export type SupportedRulesets = "STANDARD";
+export type SupportedRulesets = "STANDARD" | "FALLBACK";
 
 export interface Ruleset {
   name: SupportedRulesets;
