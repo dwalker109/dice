@@ -7,19 +7,22 @@ const initialState: DiceState = {
   history: [],
 };
 
-const diceAlgo = (): number => Math.floor(Math.random() * 6) + 1;
-
 const diceSlice = createSlice({
   initialState,
   name: "dice",
   reducers: {
-    roll(state, action: PayloadAction<Player>): DiceState {
+    roll(
+      state,
+      action: PayloadAction<{ player: Player; result: number[] }>
+    ): DiceState {
       if (
-        !state.active.rolls.some(roll => roll.player.id === action.payload.id)
+        !state.active.rolls.some(
+          roll => roll.player.id === action.payload.player.id
+        )
       ) {
         state.active.rolls.push({
-          player: action.payload,
-          result: [diceAlgo()],
+          player: action.payload.player,
+          result: action.payload.result,
         });
       }
       return state;

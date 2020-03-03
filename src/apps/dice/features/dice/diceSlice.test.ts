@@ -1,10 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
-import appReducer from "../../appReducer";
+import { store } from "../../store";
 import { Player } from "../../types";
 import { archive, roll } from "./diceSlice";
-
-const store = configureStore({ reducer: appReducer });
+import rulesets from "../match/rulesets";
 
 const player1: Player = {
   id: uuid(),
@@ -18,6 +16,8 @@ const player2: Player = {
   cpu: false,
 };
 
+const rollAlgo = rulesets.get("STANDARD")?.rollAlgo as () => number[];
+
 beforeEach(async () => {
   store.dispatch({ type: "HARD_RESET" });
 });
@@ -25,27 +25,27 @@ beforeEach(async () => {
 describe("Die throws", () => {
   it("Can roll for a player", async () => {
     expect(store.getState().dice.active.rolls.length).toEqual(0);
-    store.dispatch(roll(player1));
+    store.dispatch(roll({ player: player1, result: rollAlgo() }));
     expect(store.getState().dice.active.rolls.length).toBe(1);
   });
 
   it("Can roll for multiple players", async () => {
     expect(store.getState().dice.active.rolls.length).toEqual(0);
-    store.dispatch(roll(player1));
-    store.dispatch(roll(player2));
+    store.dispatch(roll({ player: player1, result: rollAlgo() }));
+    store.dispatch(roll({ player: player2, result: rollAlgo() }));
     expect(store.getState().dice.active.rolls.length).toBe(2);
   });
 
   it("Will not allow multiple rolls for the same player each round", async () => {
     expect(store.getState().dice.active.rolls.length).toEqual(0);
-    store.dispatch(roll(player1));
-    store.dispatch(roll(player1));
+    store.dispatch(roll({ player: player1, result: rollAlgo() }));
+    store.dispatch(roll({ player: player1, result: rollAlgo() }));
     expect(store.getState().dice.active.rolls.length).toBe(1);
   });
 
   it("Can move a round to history", async () => {
     expect(store.getState().dice.history.length).toBe(0);
-    store.dispatch(roll(player1));
+    store.dispatch(roll({ player: player1, result: rollAlgo() }));
     store.dispatch(archive());
     expect(store.getState().dice.active.rolls.length).toBe(0);
     expect(store.getState().dice.history.length).toBe(1);
