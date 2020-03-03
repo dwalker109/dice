@@ -1,9 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
 import React, { FC } from "react";
 import { Provider } from "react-redux";
-import appReducer from "./appReducer";
-
-const store = configureStore({ reducer: appReducer });
+import { store } from "./store";
 
 const App: FC = () => null;
 
