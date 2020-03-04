@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectActiveDiceRound } from "../dice/diceSelectors";
 import { selectHistory, selectStatus } from "../match/matchSelectors";
 import { Dice } from "../dice/Dice";
+import "./Actor.css";
 
 type ActorProps = { player: Player };
 const Actor: FC<ActorProps> = ({ player }) => {

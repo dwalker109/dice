@@ -14,9 +14,17 @@ const standard: Ruleset = {
   minPlayers: 2,
   maxPlayers: 2,
   dicePerTurn: 1,
+
+  /**
+   * Standard six sided die
+   */
   rollAlgo() {
     return [Math.floor(Math.random() * 6) + 1];
   },
+
+  /**
+   * Highest die wins, draw nobody wins
+   */
   winnerAlgo(round): Player | null {
     const sum = (dice: number[]): number =>
       dice.reduce((acc, cur) => acc + cur);

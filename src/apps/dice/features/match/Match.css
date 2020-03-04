@@ -1,0 +1,40 @@
+.Match-main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+}
+
+.Match-actors {
+    display: flex;
+    flex-direction: row;
+}
+
+.Match-actors > div {
+    margin: 0 4rem;
+    height: 200px;
+    width: 200px;
+}
+
+.Match-result {
+    margin: 5rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #A442DC;
+    text-shadow: 0 2px 3px #666666;
+}
+
+.Match-go > button {
+    background-color: #A442DC;
+    border-radius: 9px;
+    cursor: pointer;
+    padding: 0.8rem;
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-shadow: 0 2px 3px #cccccc;
+    outline: none; /* Not accessible, not for prod! */
+}
