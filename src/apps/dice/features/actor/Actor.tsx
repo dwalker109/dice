@@ -1,14 +1,15 @@
 import React, { FC } from "react";
-import { Player } from "../../types";
+import { Player, MatchStatus } from "../../types";
 import { useSelector } from "react-redux";
 import { selectActiveDiceRound } from "../dice/diceSelectors";
-import { selectHistory } from "../match/matchSelectors";
+import { selectHistory, selectStatus } from "../match/matchSelectors";
 import { Dice } from "../dice/Dice";
 
 type ActorProps = { player: Player };
 const Actor: FC<ActorProps> = ({ player }) => {
   const activeDiceRound = useSelector(selectActiveDiceRound);
   const history = useSelector(selectHistory);
+  const status = useSelector(selectStatus);
 
   const { result } = activeDiceRound.rolls.find(it => {
     return it.player.id === player.id;
@@ -19,9 +20,9 @@ const Actor: FC<ActorProps> = ({ player }) => {
 
   return (
     <div className="Actor-main">
-      <Dice results={result} />
       <div className="Actor-name">{player.name}</div>
-      <div className="Actor-score">{score}</div>
+      <Dice results={result} status={status} />
+      <div className="Actor-score">Wins: {score}</div>
     </div>
   );
 };

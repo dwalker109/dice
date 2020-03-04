@@ -9,8 +9,9 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PropTypes from "prop-types";
 import React, { FC } from "react";
+import { MatchStatus } from "../../types";
+import "./Dice.css";
 
 /**
  * Single
@@ -27,19 +28,20 @@ const faceMap: Map<number, IconDefinition> = new Map([
 
 type DieProps = {
   result: number;
+  status: MatchStatus;
 };
 
-const Die: FC<DieProps> = ({ result }) => {
+const Die: FC<DieProps> = ({ result, status }) => {
   const faIcon = faceMap.get(result) || faDiceD6;
   return (
     <div className="Die-main">
-      <FontAwesomeIcon icon={faIcon} size="5x" />
+      <FontAwesomeIcon
+        icon={faIcon}
+        size="5x"
+        className={status === "RUNNING" ? "wobble" : undefined}
+      />
     </div>
   );
-};
-
-Die.propTypes = {
-  result: PropTypes.number.isRequired,
 };
 
 /**
@@ -48,19 +50,16 @@ Die.propTypes = {
 
 type DiceProps = {
   results: number[];
+  status: MatchStatus;
 };
 
-const Dice: FC<DiceProps> = ({ results }) => (
+const Dice: FC<DiceProps> = ({ results, status }) => (
   <>
     {results.map((result, i) => (
-      <Die key={i} result={result} />
+      <Die key={i} result={result} status={status} />
     ))}
   </>
 );
-
-Dice.propTypes = {
-  results: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-};
 
 /**
  * Export

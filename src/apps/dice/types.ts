@@ -37,9 +37,11 @@ export type RulesetLookup = Map<SupportedRulesets, Ruleset>;
 
 export type MatchHistory = [string, number];
 
+export type MatchStatus = "NEW" | "RUNNING" | "WON" | "DRAWN";
+
 export type MatchState = {
   id: string;
-  status: "NEW" | "RUNNING" | "WON" | "DRAWN";
+  status: MatchStatus;
   diceRoundIds: string[];
   players: Player[];
   winner: Player | null;

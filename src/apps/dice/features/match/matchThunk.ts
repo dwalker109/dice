@@ -22,9 +22,10 @@ const runMatch = (): AppThunk => async (dispatch, getState): Promise<void> => {
   // Get algorithms from ruleset
   const { rollAlgo, winnerAlgo } = selectRuleset(getState()) || fallback;
 
-  // Throw dice for all players
+  // Throw dice for all players and block for animations
   const players = selectPlayers(getState());
   players.forEach(player => dispatch(roll({ player, result: rollAlgo() })));
+  await new Promise(resolve => setTimeout(() => resolve(), 500));
 
   // Finish the game and calc outcomes
   const diceRound = selectActiveDiceRound(getState());
