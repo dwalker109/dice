@@ -23,7 +23,7 @@
     font-size: 2rem;
     font-weight: 600;
     color: #A442DC;
-    text-shadow: 0 2px 3px #666666;
+    text-shadow: 0 2px 6px #A442DC;
 }
 
 .Match-go > button {
@@ -35,6 +35,13 @@
     color: whitesmoke;
     font-size: 1.2rem;
     font-weight: 500;
-    text-shadow: 0 2px 3px #cccccc;
+    text-shadow: 0 2px 3px white;
     outline: none; /* Not accessible, not for prod! */
+    box-shadow: 0px 5px 0px #A442DC;
+}
+
+.Match-go > button:active {
+    box-shadow: 0 3px 0 #A442DC;
+    top: 3px;
+    position: relative;
 }

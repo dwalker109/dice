@@ -4,6 +4,7 @@ import { archive, roll } from "../dice/diceSlice";
 import { selectPlayers, selectRuleset } from "./matchSelectors";
 import { draw, finish, init, start } from "./matchSlice";
 import { fallback } from "./rulesets";
+import { suspend } from "../../utils";
 
 const initMatch = (players: Player[]): AppThunk => async (
   dispatch
@@ -25,7 +26,7 @@ const runMatch = (): AppThunk => async (dispatch, getState): Promise<void> => {
   // Throw dice for all players and block for animations
   const players = selectPlayers(getState());
   players.forEach(player => dispatch(roll({ player, result: rollAlgo() })));
-  await new Promise(resolve => setTimeout(() => resolve(), 500));
+  await suspend(500);
 
   // Finish the game and calc outcomes
   const diceRound = selectActiveDiceRound(getState());

@@ -3,6 +3,10 @@ import { initMatch, runMatch } from "./matchThunk";
 import { Player } from "../../types";
 import { p1, p2 } from "../actor/players";
 
+jest.mock("../../utils");
+/* eslint-disable-next-line */
+const { suspend } = require("../../utils");
+
 beforeEach(async () => {
   store.dispatch({ type: "HARD_RESET" });
 });
@@ -19,7 +23,16 @@ describe("Game loop execution", () => {
     store.dispatch(initMatch([p1, p2]));
 
     for (let i = 0; i < 100; i++) {
+      // Need to ensure the internal suspend in (async) game loop resolves
+      // before we check the match state, and just mocking suspend isn't enough
+      let done;
+      suspend.mockImplementationOnce(() => (done = Promise.resolve()));
+
+      // See above - wait for the mocked suspend call to resolve
+      // after running the match.
       store.dispatch(runMatch());
+      await done;
+
       const match = store.getState().match;
       expect(match.status).toMatch(/WON|DRAWN/);
       if (match.status === "WON") {

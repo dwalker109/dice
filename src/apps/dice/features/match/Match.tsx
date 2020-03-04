@@ -34,7 +34,7 @@ const Match: FC = () => {
           <Actor player={player2} />
         </div>
       </div>
-      <div className="Match-result" style={resultStyle}>
+      <div className="Match-result" style={resultStyle} data-testid="result">
         {status === "RUNNING" && <>...</>}
         {status === "NEW" && <>Let&apos;s Go!</>}
         {status === "WON" && winner === player1 && <>You Win!</>}
